@@ -1,29 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Installs nginx on an ubuntu machine.
+# Configures the default webpage served to be "Hello World!"
+# Redirects to youtube video, when request url matches /redirect_me
 
-# Install Nginx web server
-sudo apt-get update
-sudo apt-get install -y nginx
+sudo apt-get update -y
 
-# Configure redirection for /redirect_me
-sudo sh -c 'echo "
-server {
-    listen 80;
+sudo apt-get install nginx -y
 
-    server_name localhost;
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
+NEW_RULE="\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.youtube.com/@sammykingx;\n\t}\n"
 
-    # Additional server configuration...
-}
-" > /etc/nginx/sites-available/redirect_me'
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bakup
 
-# Create a symbolic link to enable the site
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+sudo sed -i "53i $NEW_RULE" /etc/nginx/sites-available/default
 
-# Test Nginx configuration
-sudo nginx -t
-
-# Reload Nginx to apply changes
-sudo service nginx reload
+sudo service nginx restart
