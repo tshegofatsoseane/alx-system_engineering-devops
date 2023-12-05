@@ -17,8 +17,8 @@ backend tshego.tech_backend
     timeout connect  3000
     timeout server  30000
     balance roundrobin
-    server 339153-web-01 34.229.189.51:80 check
-    server 339153-web-02 54.197.22.41:80 check
+    server web-01 339153-web-01 34.229.189.51:80 check
+    server web-02 339153-web-02 54.197.22.41:80 check
 EOT
 
 sudo service haproxy restart
