@@ -1,2 +1,3 @@
-sudo: unknown user: nginx
-sudo: unable to initialize policy plugin
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+Nginx is now configured to run as the nginx user and listen on port 8080.

@@ -1,32 +1,5 @@
 #!/usr/bin/env bash
-# Check if Nginx is installed
-if ! command -v nginx &> /dev/null; then
-    echo "Nginx is not installed. Please install Nginx first."
-    exit 1
-fi
+# Fix a web server to run Nginx as the nginx user listening on port 8080.
 
-# Update Nginx configuration to run as the nginx user and listen on port 8080
-if [ -f "/etc/nginx/nginx.conf" ]; then
-    sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
-    chmod 644 /etc/nginx/nginx.conf
-else
-    echo "Nginx configuration file not found."
-    exit 1
-fi
-
-if [ -f "/etc/nginx/sites-available/default" ]; then
-    sed -i "s/80/8080/g" /etc/nginx/sites-available/default
-else
-    echo "Default Nginx site configuration file not found."
-    exit 1
-fi
-
-# Stop Apache2 if it is running
-if pgrep -x "apache2" > /dev/null; then
-    pkill apache2
-fi
-
-# Start Nginx
-systemctl start nginx
-
-echo "Nginx is now configured to run as the nginx user and listen on port 8080."
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx start
