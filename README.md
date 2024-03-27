@@ -1,1 +1,1 @@
-Repository to store shell basics scripts
+Repository to store shell basics scripts for alx
